@@ -8,6 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+vendor/
 env/
 build/
 develop-eggs/
@@ -33,6 +34,7 @@ var/
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
+requirements.txt
 
 # Unit test / coverage reports
 htmlcov/
