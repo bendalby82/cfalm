@@ -6,3 +6,5 @@ Show application lifecycle metadata for all applications in a foundation
 # Status View Page  
     
     cf push appstatusview -m 36M -b staticfile_buildpack 
+  
+Accessible at: http://appstatusview.local2.pcfdev.io/  
