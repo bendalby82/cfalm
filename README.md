@@ -9,6 +9,8 @@ Show application lifecycle metadata for all applications in a foundation
 ## Preparing for Deployment  
 ### Status REST API  
     
+    cd appstatus
+    source venv
     mkdir -p vendor  
     pip freeze > requirements.txt  
     pip install --download vendor -r requirements.txt  
