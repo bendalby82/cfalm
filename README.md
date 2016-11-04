@@ -1,5 +1,9 @@
 # cfalm
-Show application lifecycle metadata for all applications in a foundation
+Show application lifecycle metadata for all applications in a foundation  
+## Dependencies  
+Python 2.7.10  
+Virtualenv  
+  
 ## Developing
 ### Status REST API
     
