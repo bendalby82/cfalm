@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="js/jput.min.js"></script>
+</head>
+<body>
+<!--
+Using CORS
+https://www.html5rocks.com/en/tutorials/cors/
+
+Handling CORS Requests in Flask(-RESTful) APIs
+http://www.davidadamojr.com/handling-cors-requests-in-flask-restful-apis/
+
+-->
+<script>
+function iExist() {
+  console.log('i exist');
+}
+
+$(document).ready(function(){
+iExist();
+var xhr=new XMLHttpRequest();
+
+//Default data
+var json = [{"app_name":"-","org_name":"-","space_name":"-","instances":"-","state":"-","ALM_VERSION":"-"}];
+
+xhr.open("GET","http://appstatus-host.local2.pcfdev.io/api/v1.0/apps",false);
+
+try {
+  xhr.send();
+}
+catch(err) {
+  console.log('Send failed: ' + err.message);
+}
+
+if (xhr.status == 200){
+  json = JSON.parse(xhr.responseText);
+} 
+
+console.log(json)
+//while running this code the template will be appended in your div with json data
+$("#tbody").jPut({
+    jsonData:json,
+    //ajax_url:"youfile.json",  if you want to call from a json file
+    name:"tbody_template",
+});
+
+});
+
+</script>
+
+<div class="container">
+  <h2>PCF App Status</h2>
+  <!--<p>The .table-condensed class makes a table more compact by cutting cell padding in half:</p>
+http://stackoverflow.com/questions/5180382/convert-json-data-to-a-html-table
+  -->
+<table jput="t_template">
+ <tbody jput="tbody_template">
+     <tr>
+         <td>{{app_name}}</td>
+         <td>{{org_name}}</td>
+         <td>{{space_name}}</td>
+         <td>{{instances}}</td>
+         <td><span class="label {{state=='STARTED'?'label-success':'label-warning'}}">{{state}}</span></td>
+         <td>{{ALM_VERSION=='undefined'?'-':ALM_VERSION}}</td>
+     </tr>
+ </tbody>
+</table>
+
+<table class="table table-condensed table-bordered">
+ <thead>
+   <tr>
+    <th>App Name</th>
+    <th>Org</th>
+    <th>Space</th>
+    <th>Instances</th>
+    <th>State</th>
+    <th>Version</th>
+   </tr>
+ </thead>
+ <tbody id="tbody">
+ </tbody>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,8 @@
+---
+applications:
+- name: appstatus
+  host: appstatus-host
+  memory: 36M
+  instances: 1
+  buildpack: python_buildpack
+  
