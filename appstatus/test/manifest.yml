@@ -1,9 +1,0 @@
----
-applications:
-- name: testapp1
-  memory: 36M
-  buildpack: php_buildpack
-  env:
-    ALM_VERSION: 1.23
-    ALM_TEAM: "Ben's team"
-    ALM_COST_CENTRE: apptools123 
