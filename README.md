@@ -11,7 +11,7 @@ The drawback is that it is purely a convention, so there is nothing to stop some
 
 ## 1. Dependencies  
 Python 2.7.10  
-Virtualenv  
+[Virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/)    
   
 ## 2. Developing
 ### Status REST API
