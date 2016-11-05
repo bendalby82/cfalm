@@ -46,7 +46,7 @@ Virtualenv
     cf push appstatusview -m 36M -b staticfile_buildpack 
   
 ## 5. Using the applications  
-REST API is visible at https://appstatus-host.DOMAIN/  
+REST API is visible at https://appstatus-host.DOMAIN/api/v1.0/apps  
 Application view is visible at: http://appstatusview.DOMAIN/  
   
 ## 6. Creating some test applications
