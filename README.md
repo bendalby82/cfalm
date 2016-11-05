@@ -51,4 +51,5 @@ Application view is visible at: http://appstatusview.DOMAIN/
   
 ## 6. Creating some test applications
     
+    cd appstatus
     ./CreateTestApps.sh
