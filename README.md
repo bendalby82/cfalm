@@ -43,7 +43,7 @@ Virtualenv
     
 ### Status View Page  
     
-    cf push appstatusview -m 36M -b staticfile_buildpack 
+    cf push appstatusview -m 16M -b staticfile_buildpack 
   
 ## 5. Using the applications  
 REST API is visible at https://appstatus-host.DOMAIN/api/v1.0/apps  
