@@ -9,7 +9,7 @@
 6. Creating some test applications  
 7. TODO  
   
-## 0. Introduction 
+## 1. Introduction 
 Show application lifecycle metadata for all applications in a foundation, along with some basic information. The application is a simple wrapper around the Cloud Controller's `/v2/organizations`, `/v2/spaces` and `/v2/apps` end points.  
   
 Rather than asking each application to expose an end point, we adopt a convention, that every application's build pipeline must set  metadata that the organisation cares about via environment variables. In this example, a string called ALM_VERSION.  
@@ -20,11 +20,11 @@ The drawback is that it is purely a convention, so there is nothing to stop some
   
 ![Screenshot](https://github.com/bendalby82/cfalm/blob/master/images/testview.png)
 
-## 1. Dependencies  
+## 2. Dependencies  
 Python 2.7.10  
 [Virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/)    
   
-## 2. Developing
+## 3. Developing
 ### Status REST API
     
     cd appstatus  
@@ -33,7 +33,7 @@ Python 2.7.10
     pip install requests  
     pip install Flask  
     
-## 3. Preparing for Deployment  
+## 4. Preparing for Deployment  
 ### Status REST API  
     
     cd appstatus  
@@ -49,7 +49,7 @@ Note that `appstatus.py` currently has hard-coded domain and admin credentials f
     cf app appstatus | grep urls  
     #Edit line 31 of appstatusview/index.html to use the host and domain retrieved above.  
     
-## 4. To push the applications  
+## 5. To push the applications  
 ### Status REST API
     
     cf push
@@ -58,16 +58,16 @@ Note that `appstatus.py` currently has hard-coded domain and admin credentials f
     
     cf push appstatusview -m 16M -b staticfile_buildpack 
   
-## 5. Using the applications  
+## 6. Using the applications  
 REST API is visible at https://appstatus-host.DOMAIN/api/v1.0/apps  
 Application view is visible at: http://appstatusview.DOMAIN/  
   
-## 6. Creating some test applications
+## 7. Creating some test applications
     
     cd appstatus
     ./CreateTestApps.sh
 
-## 7. TODO  
+## 8. TODO  
 a. appstatus: Remove hard-coded password (and externalise Cloud Controller domain)   
 b. appstatusview: Externalise appstatus URL in Javascript fragment which is then easier to write to as part of deployment   
 c. appstatusview: Add sorting to table  
