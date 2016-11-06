@@ -1,4 +1,15 @@
-# Cloud Foundry Application Lifecycle Management
+# Cloud Foundry Application Lifecycle Management  
+## Contents  
+0. Introduction   
+1. Dependencies   
+2. Developing  
+3. Preparing for Deployment  
+4. To push the applications  
+5. Using the applications  
+6. Creating some test applications  
+7. TODO  
+  
+## 0. Introduction 
 Show application lifecycle metadata for all applications in a foundation, along with some basic information. The application is a simple wrapper around the Cloud Controller's `/v2/organizations`, `/v2/spaces` and `/v2/apps` end points.  
   
 Rather than asking each application to expose an end point, we adopt a convention, that every application's build pipeline must set  metadata that the organisation cares about via environment variables. In this example, a string called ALM_VERSION.  
@@ -31,12 +42,14 @@ Python 2.7.10
     pip freeze > requirements.txt    
     pip install --download vendor -r requirements.txt  
   
+Note that `appstatus.py` currently has hard-coded domain and admin credentials for the Cloud Controller. These must be changed for your specific environment.  
+  
 ### Status View Page  
     
     cf app appstatus | grep urls  
     #Edit line 31 of appstatusview/index.html to use the host and domain retrieved above.  
     
-## 4. To push applications  
+## 4. To push the applications  
 ### Status REST API
     
     cf push
@@ -53,3 +66,10 @@ Application view is visible at: http://appstatusview.DOMAIN/
     
     cd appstatus
     ./CreateTestApps.sh
+
+## 7. TODO  
+a. appstatus: Remove hard-coded password (and externalise Cloud Controller domain)   
+b. appstatusview: Externalise appstatus URL in Javascript fragment which is then easier to write to as part of deployment   
+c. appstatusview: Add sorting to table  
+d. appstatusview: Add different colour for 'CRASHED' status   
+e. Both apps: Add support for pagination   
