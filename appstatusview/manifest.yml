@@ -1,0 +1,7 @@
+---
+applications:
+- name: appstatusview
+  memory: 16M
+  instances: 1
+  buildpack: staticfile_buildpack
+  
