@@ -1,20 +1,9 @@
-# Name: 		  foundation-query.py
-# Revisions: 	  BRD: 20160804	Created
+# Name:           appstatus.py
 #
-# Usage: 		  1. Write to a file
-#				  python -W ignore inventory-query.py 1> foundation-stats.txt
-#
-# Output:
-#                 Number of App Instances 2565
-#                 Number of Apps 2000
-#                 Number of service instances 1934
-#                 Number of different services available (effectively # plans) 70
-#                 Number of service bindings between service instances and app instances TBC
-
-# Dependencies:	  Requests must be available on the machine, either via pip or unzipped to
+# Dependencies:   Requests must be available on the machine, either via pip or unzipped to
 #                 the same folder or the parent folder.
 #!flask/bin/python
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
@@ -44,69 +33,79 @@ password = "admin"
 sslvalidation = False
 
 def get_new_access_token(systemdomain, username, sslvalidation):
-	qry = "https://uaa.%s/oauth/token" % systemdomain
-	payload = {'username': username, 'password': password, 'grant_type': 'password'}
-	headers = {'AUTHORIZATION': 'Basic Y2Y6'}
-	r = requests.post(qry, data=payload, headers=headers, verify=sslvalidation)
-	#Throw error if something went wrong
-	r.raise_for_status()
-	return r.json()["access_token"]
+    qry = "https://uaa.%s/oauth/token" % systemdomain
+    payload = {'username': username, 'password': password, 'grant_type': 'password'}
+    headers = {'AUTHORIZATION': 'Basic Y2Y6'}
+    r = requests.post(qry, data=payload, headers=headers, verify=sslvalidation)
+    #Throw error if something went wrong
+    r.raise_for_status()
+    return r.json()["access_token"]
 
 #Set sslvalidation=False to skip SSL Validation. Singleton for scope of script.
 def get_access_token():
-	global access_token
-	#if not access_token:
-	access_token = get_new_access_token(systemdomain, username, sslvalidation)
-	return access_token
+    global access_token
+    #if not access_token:
+    access_token = get_new_access_token(systemdomain, username, sslvalidation)
+    return access_token
 
 def cf_curl_get(url):
-	headers = {'Authorization': 'bearer %s' % get_access_token(), 'Host': 'api.%s' % systemdomain, 'Cookie': ''}
-	qry = "https://api.%s%s" % (systemdomain, url)
-	#print >> sys.stderr, 'cf_curl_get: Calling: %s' % qry
-	r = requests.get(qry, headers=headers, verify=sslvalidation)
-	r.raise_for_status()
-	return r.json()
+    headers = {'Authorization': 'bearer %s' % get_access_token(), 'Host': 'api.%s' % systemdomain, 'Cookie': ''}
+    qry = "https://api.%s%s" % (systemdomain, url)
+    #print >> sys.stderr, 'cf_curl_get: Calling: %s' % qry
+    r = requests.get(qry, headers=headers, verify=sslvalidation)
+    r.raise_for_status()
+    return r.json()
 
 #Given an arbitrary API call, will assemble paginated results into single result
 def cf_curl_all(url):
-	alldata = cf_curl_get(url)
-	next_url = alldata["next_url"]
-	while next_url:
-		moredata = cf_curl_get(next_url)
-		alldata["resources"] = alldata["resources"] + moredata["resources"]
-		next_url = moredata["next_url"]
-	return alldata
+    alldata = cf_curl_get(url)
+    next_url = alldata["next_url"]
+    while next_url:
+        moredata = cf_curl_get(next_url)
+        alldata["resources"] = alldata["resources"] + moredata["resources"]
+        next_url = moredata["next_url"]
+    return alldata
 
 def getallorgs():
-	qry = "/v2/organizations"
-	allorgs = cf_curl_all(qry)
-	orgdic={}
-	for org in allorgs["resources"]:
-		guid = org["metadata"]["guid"]
-		orgdic[guid] = org["entity"]["name"]
-	return orgdic
+    qry = "/v2/organizations"
+    allorgs = cf_curl_all(qry)
+    orgdic={}
+    for org in allorgs["resources"]:
+        guid = org["metadata"]["guid"]
+        orgdic[guid] = org["entity"]["name"]
+    return orgdic
 
 def getallspaces():
-	qry = "/v2/spaces"
-	allspaces=cf_curl_all(qry)
-	spacedic = {}
-	for space in allspaces["resources"]:
-		guid = space["metadata"]["guid"]
-		spacedic[guid]={'space_name':space["entity"]["name"],'organization_guid':space["entity"]["organization_guid"]}
-	return spacedic
+    qry = "/v2/spaces"
+    allspaces=cf_curl_all(qry)
+    spacedic = {}
+    for space in allspaces["resources"]:
+        guid = space["metadata"]["guid"]
+        spacedic[guid]={'space_name':space["entity"]["name"],'organization_guid':space["entity"]["organization_guid"]}
+    return spacedic
 
 def getallapps():
-	qry = "/v2/apps"
-	allapps = cf_curl_all(qry)
-	return allapps
+    qry = "/v2/apps"
+    allapps = cf_curl_all(qry)
+    return allapps
+
+def getallbuildpacks():
+    qry = "/v2/buildpacks"
+    allbuildpacks = cf_curl_all(qry)
+    bpdic={}
+    for bp in allbuildpacks["resources"]:
+        guid = bp["metadata"]["guid"]
+        bpdic[guid] = bp["entity"]["filename"]
+    return bpdic
 
 def getappdata():
     orgdic = getallorgs()
     spacedic = getallspaces()
     allapps = getallapps()
+    allbuildpacks=getallbuildpacks()
     outputlist = []
     for app in allapps["resources"]:
-    	listentry = {}
+        listentry = {}
         listentry["app_name"] = app["entity"]["name"]
         space_guid = app["entity"]["space_guid"]
         listentry["space_name"] = spacedic[space_guid]["space_name"]
@@ -115,16 +114,30 @@ def getappdata():
         #Use ORG guid from space dictionary to key into ORG dictionary, which is
         #simple key-value pair of ORG_GUID: ORG_NAME
         listentry["org_name"] = orgdic[spacedic[space_guid]["organization_guid"]]
+        listentry["buildpack"] = app["entity"]["buildpack"]
+        listentry["buildpackfile"] = "-"
+        if app["entity"]["detected_buildpack_guid"]:
+            listentry["buildpackfile"]=allbuildpacks[app["entity"]["detected_buildpack_guid"]]
         #Flatten environment JSON
         envjson = app["entity"]["environment_json"]
         for key, value in envjson.iteritems():
-            listentry[key] = value	
+            listentry[key] = value  
         outputlist.append(listentry)
     return outputlist
 
+#DEBUG CODE
+def serializeheaders(mydic):
+    headerstring = ""
+    for k, v in mydic.items():
+        if headerstring == "":
+            headerstring = "%s:%s" % (k,v)
+        else:
+            headerstring = "%s,%s:%s" % (headerstring,k,v)
+    return headerstring
 
 @app.route('/api/v1.0/apps', methods=['GET'])
 def get_tasks():
+    #print serializeheaders(request.headers)
     return jsonify(getappdata())
 
 @app.route('/', methods=['GET'])
@@ -133,7 +146,7 @@ def get_base():
 
 @app.after_request
 def after_request(response):
-	#Allows us to call this from other domains.
+    #Allows us to call this from other domains.
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 

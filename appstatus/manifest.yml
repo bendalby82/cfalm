@@ -2,7 +2,7 @@
 applications:
 - name: appstatus
   host: appstatus-host
-  memory: 36M
+  memory: 32M
   instances: 1
   buildpack: python_buildpack
   
