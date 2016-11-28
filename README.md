@@ -52,11 +52,13 @@ Note that `appstatus.py` currently has hard-coded domain and admin credentials f
 ## 5. To push the applications  
 ### Status REST API
     
+    cd appstatus
     cf push
     
 ### Status View Page  
     
-    cf push appstatusview -m 16M -b staticfile_buildpack 
+    cd appstatusview
+    cf push 
   
 ## 6. Using the applications  
 REST API is visible at https://appstatus-host.DOMAIN/api/v1.0/apps  
@@ -72,4 +74,6 @@ a. appstatus: Remove hard-coded password (and externalise Cloud Controller domai
 b. appstatusview: Externalise appstatus URL in Javascript fragment which is then easier to write to as part of deployment   
 c. appstatusview: Add sorting to table  
 d. appstatusview: Add different colour for 'CRASHED' status   
-e. Both apps: Add support for pagination   
+e. Both apps: Add support for pagination
+f. Add services
+g. Add buildpack file names
