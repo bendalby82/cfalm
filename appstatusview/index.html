@@ -27,7 +27,7 @@ iExist();
 var xhr=new XMLHttpRequest();
 
 //Default data
-var json = [{"app_name":"-","org_name":"-","space_name":"-","instances":"-","state":"-","buildpack":"-", "ALM_VERSION":"-"}];
+var json = [{"app_name":"-","org_name":"-","space_name":"-","instances":"-","state":"-","buildpack":"-", "buildpackfile":"-","createdby":"-","ALM_VERSION":"-"}];
 
 
 //xhr.open("GET","http://localhost:8080/api/v1.0/apps",false);
@@ -70,6 +70,8 @@ http://stackoverflow.com/questions/5180382/convert-json-data-to-a-html-table
          <td>{{instances}}</td>
          <td><span class="label {{state=='STARTED'?'label-success':'label-warning'}}">{{state}}</span></td>
          <td>{{buildpack}}</td>
+         <td>{{buildpackfile}}</td>
+         <td>{{createdby}}</td>
          <td>{{ALM_VERSION=='undefined'?'-':ALM_VERSION}}</td>
      </tr>
  </tbody>
@@ -84,6 +86,8 @@ http://stackoverflow.com/questions/5180382/convert-json-data-to-a-html-table
     <th>Instances</th>
     <th>State</th>
     <th>Buildpack</th>
+    <th>Buildpack File</th>
+    <th>Created By</th>
     <th>Version</th>
    </tr>
  </thead>

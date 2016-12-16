@@ -25,7 +25,7 @@ import requests
 #Stores the access token for the duration of script execution
 access_token = ""
 #Credentials to retrieve token from UAA
-systemdomain = "local2.pcfdev.io"
+systemdomain = "local.pcfdev.io"
 username = "admin"
 password = "admin"
 
@@ -98,26 +98,50 @@ def getallbuildpacks():
         bpdic[guid] = bp["entity"]["filename"]
     return bpdic
 
+def getappcreationevents():
+    qry = "/v2/events?q=type%20IN%20audit.app.create"
+    allcreateevents = cf_curl_all(qry)
+    #Build dictionary of app_guid:created_by
+    acedic={}
+    for ace in allcreateevents["resources"]:
+        app_guid = ace["entity"]["actee"]
+        acedic[app_guid] = ace["entity"]["actor_name"]
+    return acedic
+
 def getappdata():
     orgdic = getallorgs()
     spacedic = getallspaces()
     allapps = getallapps()
     allbuildpacks=getallbuildpacks()
+    allcreateevents=getappcreationevents()
     outputlist = []
     for app in allapps["resources"]:
         listentry = {}
+        app_guid = app["metadata"]["guid"]
         listentry["app_name"] = app["entity"]["name"]
         space_guid = app["entity"]["space_guid"]
         listentry["space_name"] = spacedic[space_guid]["space_name"]
         listentry["instances"] = app["entity"]["instances"]
         listentry["state"] = app["entity"]["state"]
+        
         #Use ORG guid from space dictionary to key into ORG dictionary, which is
         #simple key-value pair of ORG_GUID: ORG_NAME
         listentry["org_name"] = orgdic[spacedic[space_guid]["organization_guid"]]
         listentry["buildpack"] = app["entity"]["buildpack"]
         listentry["buildpackfile"] = "-"
-        if app["entity"]["detected_buildpack_guid"]:
-            listentry["buildpackfile"]=allbuildpacks[app["entity"]["detected_buildpack_guid"]]
+        
+        #App will still list GUID if buildpack has been deleted.
+        app_buildpack_guid = app["entity"]["detected_buildpack_guid"]
+        if app_buildpack_guid:
+            if app_buildpack_guid in allbuildpacks:
+                listentry["buildpackfile"]=allbuildpacks[app_buildpack_guid]
+            else:
+                listentry["buildpackfile"]="Cannot retreive filename - GUID %s is not found via Buildpacks API" % app_buildpack_guid
+        
+        listentry["createdby"] = "-"
+        if app_guid in allcreateevents:
+            listentry["createdby"] = allcreateevents[app_guid]
+
         #Flatten environment JSON
         envjson = app["entity"]["environment_json"]
         for key, value in envjson.iteritems():
