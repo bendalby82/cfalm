@@ -6,6 +6,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="js/jput.min.js"></script>
+  <script src="config.js"></script>
 </head>
 <body>
 <!--
@@ -28,8 +29,9 @@ var xhr=new XMLHttpRequest();
 //Default data
 var json = [{"app_name":"-","org_name":"-","space_name":"-","instances":"-","state":"-","buildpack":"-", "ALM_VERSION":"-"}];
 
+
 //xhr.open("GET","http://localhost:8080/api/v1.0/apps",false);
-xhr.open("GET","https://appstatus-host.local2.pcfdev.io/api/v1.0/apps",false);
+xhr.open("GET",appConfig.restApi,false);
 
 try {
   xhr.send();
