@@ -9,7 +9,8 @@
 [7. Creating some test applications](#7-creating-some-test-applications)   
 [8. Future](#8-future)  
 [9. Licensing](#9-licensing)  
-[10. Contribution](#10-contribution)
+[10. Contribution](#10-contribution)  
+[11. Support](#11-support)  
   
 ## 1. Introduction 
 Shows application lifecycle metadata for all applications in a foundation, along with some basic information. The application is a  wrapper around the Cloud Controller's `/v2/organizations`, `/v2/spaces`, `/v2/apps`, `/v2/buildpacks` and `/v2/events` end points.  
@@ -85,3 +86,6 @@ CFALM is freely distributed under the [MIT License](https://opensource.org/licen
 
 ## 10. Contribution
 Create a fork of the project into your own reposity. Make all your necessary changes and create a pull request with a description on what was added or removed and details explaining the changes in lines of code. If approved, project owners will merge it.  
+  
+## 11. Support  
+Please file bugs and issues on the Github issues page for this project. This is to help keep track and document everything related to this repo. The code and documentation are released with no warranties or SLAs and are intended to be supported through a community driven process.  
