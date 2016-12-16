@@ -1,4 +1,5 @@
 # Cloud Foundry Application Lifecycle Management (CFALM)   
+![Screenshot](https://github.com/bendalby82/cfalm/blob/master/images/testview.png)
 ## Contents  
 [1. Introduction](#1-introduction)   
 [2. Dependencies](#2-dependencies)   
@@ -20,9 +21,7 @@ Rather than asking each application to expose an end point, we adopt a conventio
 The benefits of this approach is that it is very quick to retrieve information for all applications, and there is no onus on publishing applications to expose an additional end point.  
   
 The drawback is that it is purely a convention, so there is nothing to stop someone changing the environment variables after the application is deployed.  
-  
-![Screenshot](https://github.com/bendalby82/cfalm/blob/master/images/testview.png)
-
+   
 ## 2. Dependencies  
 Python 2.7.10  
 [Virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/)    
