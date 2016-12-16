@@ -1,4 +1,4 @@
-# Cloud Foundry Application Lifecycle Management  
+# Cloud Foundry Application Lifecycle Management (CFALM)   
 ## Contents  
 [1. Introduction](#1-introduction)   
 [2. Dependencies](#2-dependencies)   
@@ -6,8 +6,10 @@
 [4. Preparing for Deployment](#4-preparing-for-deployment)  
 [5. To push the applications](#5-to-push-the-applications)  
 [6. Using the applications](#6-using-the-applications)  
-[7. Creating some test applications](#7-creating-some-test-applications)  
-[8. TODO](#8-todo)  
+[7. Creating some test applications](#7-creating-some-test-applications)   
+[8. Future](#8-future)  
+[9. Licensing](#9-licensing)  
+[10. Contribution](#10-contribution)
   
 ## 1. Introduction 
 Shows application lifecycle metadata for all applications in a foundation, along with some basic information. The application is a  wrapper around the Cloud Controller's `/v2/organizations`, `/v2/spaces`, `/v2/apps`, `/v2/buildpacks` and `/v2/events` end points.  
@@ -69,7 +71,7 @@ Application view is visible at: http://appstatusview.DOMAIN/
     cd appstatus
     ./CreateTestApps.sh
 
-## 8. TODO  
+## 8. Future  
 a. appstatus: Remove hard-coded password (and externalise Cloud Controller domain)   
 ~~b. appstatusview: Externalise appstatus URL in Javascript fragment which is then easier to write to as part of deployment~~    
 c. appstatusview: Add sorting to table  
@@ -77,3 +79,9 @@ d. appstatusview: Add different colour for 'CRASHED' status
 e. Both apps: Add support for pagination  
 f. Add services  
 ~~g. Add buildpack file names~~  
+  
+## 9. Licensing
+CFALM is freely distributed under the [MIT License](https://opensource.org/licenses/MIT). See LICENSE for details.  
+
+## 10. Contribution
+Create a fork of the project into your own reposity. Make all your necessary changes and create a pull request with a description on what was added or removed and details explaining the changes in lines of code. If approved, project owners will merge it.  
