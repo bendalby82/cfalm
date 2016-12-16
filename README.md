@@ -10,7 +10,7 @@
 [8. TODO](#8-todo)  
   
 ## 1. Introduction 
-Shows application lifecycle metadata for all applications in a foundation, along with some basic information. The application is a simple wrapper around the Cloud Controller's `/v2/organizations`, `/v2/spaces` and `/v2/apps` end points.  
+Shows application lifecycle metadata for all applications in a foundation, along with some basic information. The application is a  wrapper around the Cloud Controller's `/v2/organizations`, `/v2/spaces`, `/v2/apps`, `/v2/buildpacks` and `/v2/events` end points.  
   
 Rather than asking each application to expose an end point, we adopt a convention, that every application's build pipeline must set  metadata that the organisation cares about via environment variables. In this example, a string called ALM_VERSION.  
   
@@ -71,9 +71,9 @@ Application view is visible at: http://appstatusview.DOMAIN/
 
 ## 8. TODO  
 a. appstatus: Remove hard-coded password (and externalise Cloud Controller domain)   
-b. appstatusview: Externalise appstatus URL in Javascript fragment which is then easier to write to as part of deployment   
+~~b. appstatusview: Externalise appstatus URL in Javascript fragment which is then easier to write to as part of deployment~~    
 c. appstatusview: Add sorting to table  
 d. appstatusview: Add different colour for 'CRASHED' status   
-e. Both apps: Add support for pagination
-f. Add services
-g. Add buildpack file names
+e. Both apps: Add support for pagination  
+f. Add services  
+~~g. Add buildpack file names~~  
