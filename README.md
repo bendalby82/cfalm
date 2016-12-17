@@ -78,7 +78,8 @@ c. appstatusview: Add sorting to table
 d. appstatusview: Add different colour for 'CRASHED' status   
 e. Both apps: Add support for pagination  
 f. Add services  
-~~g. Add buildpack file names~~  
+~~g. Add buildpack file names~~   
+h. Add [unit tests](http://docs.pytest.org/en/latest/index.html)  
   
 ## 9. Licensing
 CFALM is freely distributed under the [MIT License](https://opensource.org/licenses/MIT). See LICENSE for details.  
