@@ -24,10 +24,45 @@ import requests
 
 #Stores the access token for the duration of script execution
 access_token = ""
+
 #Credentials to retrieve token from UAA
-systemdomain = "local.pcfdev.io"
-username = "admin"
-password = "admin"
+systemdomain = ""
+username = ""
+password = ""
+
+#The name of the user-provided service that will hold our link to the Cloud Controller
+cupsname = "cclink"
+
+#Attempt to retreive credentials from the above
+if "VCAP_SERVICES" in os.environ:
+    vcap = json.loads(os.environ["VCAP_SERVICES"])
+    if "user-provided" in vcap:
+        cclinkfound = False
+        for cups in vcap["user-provided"]:
+            if cups["name"] == cupsname:
+                cclinkfound = True
+                envkey = "CFALM_SYSTEM_DOMAIN"
+                if envkey in cups["credentials"]:
+                    systemdomain = cups["credentials"][envkey]
+                else:
+                    raise EnvironmentError("User-provided service %s is missing required property %s." % (cupsname,envkey))
+                envkey = "CFALM_CC_UID"
+                if envkey in cups["credentials"]:
+                    username = cups["credentials"][envkey]
+                else:
+                    raise EnvironmentError("User-provided service %s is missing required property %s." % (cupsname,envkey))
+                envkey = "CFALM_CC_PWD"
+                if envkey in cups["credentials"]:
+                    password = cups["credentials"][envkey]
+                else:
+                    raise EnvironmentError("User-provided service %s is missing required property %s." % (cupsname,envkey))
+                break
+        if not cclinkfound:
+            raise EnvironmentError("No user-provided service called %s in VCAP_SERVICES." % cupsname)
+    else:
+        raise EnvironmentError("No user-provided service section in VCAP_SERVICES.")
+else:
+    raise EnvironmentError("VCAP_SERVICES environment variable not present.")
 
 #Must be false in situations where host certificate is not trusted.
 sslvalidation = False
@@ -127,9 +162,12 @@ def getappdata():
         #Use ORG guid from space dictionary to key into ORG dictionary, which is
         #simple key-value pair of ORG_GUID: ORG_NAME
         listentry["org_name"] = orgdic[spacedic[space_guid]["organization_guid"]]
-        listentry["buildpack"] = app["entity"]["buildpack"]
+        if app["entity"]["buildpack"]:
+            listentry["buildpack"] = app["entity"]["buildpack"]
+        else: 
+            listentry["buildpack"] = "%s (auto)" % app["entity"]["detected_buildpack"]
+
         listentry["buildpackfile"] = "-"
-        
         #App will still list GUID if buildpack has been deleted.
         app_buildpack_guid = app["entity"]["detected_buildpack_guid"]
         if app_buildpack_guid:

@@ -43,13 +43,12 @@ Python 2.7.10
     mkdir -p vendor    
     pip freeze > requirements.txt    
     pip install --download vendor -r requirements.txt  
-  
-Note that `appstatus.py` currently has hard-coded domain and admin credentials for the Cloud Controller. These must be changed for your specific environment.  
+    #Create a user provided service holding your Cloud Foundry system domain and admin credentials
+    cf cups cclink -p '{"CFALM_SYSTEM_DOMAIN":"local.pcfdev.io","CFALM_CC_UID":"admin","CFALM_CC_PWD":"admin"}'
   
 ### Status View Page  
     
-    cf app appstatus | grep urls  
-    #Edit line 31 of appstatusview/index.html to use the host and domain retrieved above.  
+    Edit appstatusview/config.js to use the host and domain for the REST API.  
     
 ## 5. To push the applications  
 ### Status REST API
@@ -72,7 +71,7 @@ Application view is visible at: http://appstatusview.DOMAIN/
     ./CreateTestApps.sh
 
 ## 8. Future  
-a. appstatus: Remove hard-coded password (and externalise Cloud Controller domain)   
+~~a. appstatus: Remove hard-coded password (and externalise Cloud Controller domain)~~   
 ~~b. appstatusview: Externalise appstatus URL in Javascript fragment which is then easier to write to as part of deployment~~    
 c. appstatusview: Add sorting to table  
 d. appstatusview: Add different colour for 'CRASHED' status   
