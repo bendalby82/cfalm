@@ -18,17 +18,12 @@ http://www.davidadamojr.com/handling-cors-requests-in-flask-restful-apis/
 
 -->
 <script>
-function iExist() {
-  console.log('i exist');
-}
-
 $(document).ready(function(){
-iExist();
+
 var xhr=new XMLHttpRequest();
 
 //Default data
 var json = [{"app_name":"-","org_name":"-","space_name":"-","instances":"-","state":"-","buildpack":"-", "buildpackfile":"-","createdby":"-","ALM_VERSION":"-"}];
-
 
 //xhr.open("GET","http://localhost:8080/api/v1.0/apps",false);
 xhr.open("GET",appConfig.restApi,false);
@@ -57,7 +52,7 @@ $("#tbody").jPut({
 </script>
 
 <div class="container">
-  <h2>PCF App Status</h2>
+  <h2>CF App Status</h2>
   <!--<p>The .table-condensed class makes a table more compact by cutting cell padding in half:</p>
 http://stackoverflow.com/questions/5180382/convert-json-data-to-a-html-table
   -->
