@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd test
+cd sampleapp
 cf push testapp1 -b php_buildpack -m 36M -i 1
 cf set-env testapp1 ALM_VERSION 1.23
 
