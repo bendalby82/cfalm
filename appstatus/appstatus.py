@@ -33,9 +33,27 @@ password = ""
 #The name of the user-provided service that will hold our link to the Cloud Controller
 cupsname = "cclink"
 
-#Attempt to retreive credentials from the above
-if "VCAP_SERVICES" in os.environ:
-    vcap = json.loads(os.environ["VCAP_SERVICES"])
+cloudcontrollerconfig = None
+
+#Must be false in situations where host certificate is not trusted.
+sslvalidation = False
+
+class CloudControllerConfig:
+    def __init__(self, systemdomain="", username="", password=""):
+        self.systemdomain=systemdomain
+        self.username=username
+        self.password=password
+
+def parse_vcap_services():
+    if "VCAP_SERVICES" in os.environ:
+        json_string = os.environ["VCAP_SERVICES"]
+        return load_config_from_json(json_string)
+    else:
+        raise EnvironmentError("VCAP_SERVICES environment variable not present.")
+
+def load_config_from_json(json_config):
+    vcap = json.loads(json_config)
+    global cupsname
     if "user-provided" in vcap:
         cclinkfound = False
         for cups in vcap["user-provided"]:
@@ -44,28 +62,30 @@ if "VCAP_SERVICES" in os.environ:
                 envkey = "CFALM_SYSTEM_DOMAIN"
                 if envkey in cups["credentials"]:
                     systemdomain = cups["credentials"][envkey]
+                    if not systemdomain:
+                        raise EnvironmentError("Required property %s is present but empty" % (envkey))   
                 else:
                     raise EnvironmentError("User-provided service %s is missing required property %s." % (cupsname,envkey))
                 envkey = "CFALM_CC_UID"
                 if envkey in cups["credentials"]:
                     username = cups["credentials"][envkey]
+                    if not username:
+                        raise EnvironmentError("Required property %s is present but empty" % (envkey))   
                 else:
                     raise EnvironmentError("User-provided service %s is missing required property %s." % (cupsname,envkey))
                 envkey = "CFALM_CC_PWD"
                 if envkey in cups["credentials"]:
                     password = cups["credentials"][envkey]
+                    if not password:
+                        raise EnvironmentError("Required property %s is present but empty" % (envkey))   
                 else:
                     raise EnvironmentError("User-provided service %s is missing required property %s." % (cupsname,envkey))
-                break
+                #Everything worked!
+                return CloudControllerConfig(systemdomain,username,password)
         if not cclinkfound:
             raise EnvironmentError("No user-provided service called %s in VCAP_SERVICES." % cupsname)
     else:
         raise EnvironmentError("No user-provided service section in VCAP_SERVICES.")
-else:
-    raise EnvironmentError("VCAP_SERVICES environment variable not present.")
-
-#Must be false in situations where host certificate is not trusted.
-sslvalidation = False
 
 def get_new_access_token(systemdomain, username, sslvalidation):
     qry = "https://uaa.%s/oauth/token" % systemdomain
@@ -104,6 +124,7 @@ def cf_curl_all(url):
 def getallorgs():
     qry = "/v2/organizations"
     allorgs = cf_curl_all(qry)
+    assert type(allorgs) is dict
     orgdic={}
     for org in allorgs["resources"]:
         guid = org["metadata"]["guid"]
@@ -212,6 +233,13 @@ def after_request(response):
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-if __name__ == '__main__':
+def main():
+    global cloudcontrollerconfig
+    if cloudcontrollerconfig is None:
+        cloudcontrollerconfig = parse_vcap_services()
     requests.packages.urllib3.disable_warnings()
     app.run(host='0.0.0.0',port=8080)
+    return
+
+if __name__ == '__main__':
+    main()
