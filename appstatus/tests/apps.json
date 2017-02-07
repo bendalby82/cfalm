@@ -1,0 +1,213 @@
+{
+   "total_results": 4,
+   "total_pages": 1,
+   "prev_url": null,
+   "next_url": null,
+   "resources": [
+      {
+         "metadata": {
+            "guid": "5c250789-44ab-47cc-b494-336dd44d81c0",
+            "url": "/v2/apps/5c250789-44ab-47cc-b494-336dd44d81c0",
+            "created_at": "2017-01-30T13:44:41Z",
+            "updated_at": "2017-01-30T13:45:05Z"
+         },
+         "entity": {
+            "name": "apps-manager",
+            "production": false,
+            "space_guid": "35248c13-306b-4058-9a95-7154fd8fda5b",
+            "stack_guid": "57143110-cdb5-4479-b12c-dfd387ddab65",
+            "buildpack": "staticfile_buildpack",
+            "detected_buildpack": "",
+            "detected_buildpack_guid": "743b6fe5-36f9-49a4-90ae-451f5be46ed4",
+            "environment_json": {
+               "APPS_MANAGER_URL": "https://local.pcfdev.io",
+               "CLOUD_CONTROLLER_URL": "http://api.local.pcfdev.io",
+               "INVITATIONS_SERVICE_URL": "http://invite.local.pcfdev.io",
+               "LOGGREGATOR_URL": "https://loggregator.local.pcfdev.io",
+               "METRICS_URL": "http://metrics.local.pcfdev.io",
+               "USAGE_SERVICE_HOST": "http://usage.local.pcfdev.io"
+            },
+            "memory": 64,
+            "instances": 1,
+            "disk_quota": 512,
+            "state": "STARTED",
+            "version": "a6ad600a-79fe-41a0-8813-b4850e65b5de",
+            "command": "export DNS_NAME_SERVER=$(cat /etc/resolv.conf | grep nameserver | grep -Ev '(localhost|127.0.0.1)' | awk -F ' ' '{print $2}' | head -1) && sh boot.sh",
+            "console": false,
+            "debug": null,
+            "staging_task_id": "c274cdbf-4bd7-46ce-9844-8f7f1a960ed6",
+            "package_state": "STAGED",
+            "health_check_type": "port",
+            "health_check_timeout": null,
+            "staging_failed_reason": null,
+            "staging_failed_description": null,
+            "diego": true,
+            "docker_image": null,
+            "package_updated_at": "2017-01-30T13:44:41Z",
+            "detected_start_command": "sh boot.sh",
+            "enable_ssh": true,
+            "docker_credentials_json": {
+               "redacted_message": "[PRIVATE DATA HIDDEN]"
+            },
+            "ports": [
+               8080
+            ],
+            "space_url": "/v2/spaces/35248c13-306b-4058-9a95-7154fd8fda5b",
+            "stack_url": "/v2/stacks/57143110-cdb5-4479-b12c-dfd387ddab65",
+            "routes_url": "/v2/apps/5c250789-44ab-47cc-b494-336dd44d81c0/routes",
+            "events_url": "/v2/apps/5c250789-44ab-47cc-b494-336dd44d81c0/events",
+            "service_bindings_url": "/v2/apps/5c250789-44ab-47cc-b494-336dd44d81c0/service_bindings",
+            "route_mappings_url": "/v2/apps/5c250789-44ab-47cc-b494-336dd44d81c0/route_mappings"
+         }
+      },
+      {
+         "metadata": {
+            "guid": "2c50497b-0715-4640-9564-6fa76032fde1",
+            "url": "/v2/apps/2c50497b-0715-4640-9564-6fa76032fde1",
+            "created_at": "2017-01-30T16:00:20Z",
+            "updated_at": "2017-01-30T16:10:03Z"
+         },
+         "entity": {
+            "name": "cf-spring",
+            "production": false,
+            "space_guid": "b7e1e0eb-dcc4-4ea0-b447-02766701d0ba",
+            "stack_guid": "57143110-cdb5-4479-b12c-dfd387ddab65",
+            "buildpack": null,
+            "detected_buildpack": "java-buildpack=v3.10-offline-https://github.com/cloudfoundry/java-buildpack.git#193d6b7 open-jdk-like-jre=1.8.0_111 open-jdk-like-memory-calculator=2.0.2_RELEASE spring-boot-cli=1.4.1_RELEASE",
+            "detected_buildpack_guid": "28123073-cdcb-4783-bf65-05dca13523c3",
+            "environment_json": {},
+            "memory": 512,
+            "instances": 1,
+            "disk_quota": 512,
+            "state": "STARTED",
+            "version": "e10555e3-d109-4d8f-9a8b-a4084142c40a",
+            "command": null,
+            "console": false,
+            "debug": null,
+            "staging_task_id": "fdb046af-1081-46ca-ac7f-43f01019d27e",
+            "package_state": "STAGED",
+            "health_check_type": "port",
+            "health_check_timeout": null,
+            "staging_failed_reason": null,
+            "staging_failed_description": null,
+            "diego": true,
+            "docker_image": null,
+            "package_updated_at": "2017-01-30T16:09:58Z",
+            "detected_start_command": "CALCULATED_MEMORY=$($PWD/.java-buildpack/open_jdk_jre/bin/java-buildpack-memory-calculator-2.0.2_RELEASE -memorySizes=metaspace:64m..,stack:228k.. -memoryWeights=heap:65,metaspace:10,native:15,stack:10 -memoryInitials=heap:100%,metaspace:100% -stackThreads=300 -totMemory=$MEMORY_LIMIT) && SERVER_PORT=$PORT JAVA_HOME=$PWD/.java-buildpack/open_jdk_jre JAVA_OPTS=\"-Djava.io.tmpdir=$TMPDIR -XX:OnOutOfMemoryError=$PWD/.java-buildpack/open_jdk_jre/bin/killjava.sh $CALCULATED_MEMORY\" exec $PWD/.java-buildpack/spring_boot_cli/bin/spring run app.groovy",
+            "enable_ssh": true,
+            "docker_credentials_json": {
+               "redacted_message": "[PRIVATE DATA HIDDEN]"
+            },
+            "ports": [
+               8080
+            ],
+            "space_url": "/v2/spaces/b7e1e0eb-dcc4-4ea0-b447-02766701d0ba",
+            "stack_url": "/v2/stacks/57143110-cdb5-4479-b12c-dfd387ddab65",
+            "routes_url": "/v2/apps/2c50497b-0715-4640-9564-6fa76032fde1/routes",
+            "events_url": "/v2/apps/2c50497b-0715-4640-9564-6fa76032fde1/events",
+            "service_bindings_url": "/v2/apps/2c50497b-0715-4640-9564-6fa76032fde1/service_bindings",
+            "route_mappings_url": "/v2/apps/2c50497b-0715-4640-9564-6fa76032fde1/route_mappings"
+         }
+      },
+      {
+         "metadata": {
+            "guid": "dcdaa29e-0a20-41cf-811f-1cbeb08ff4b2",
+            "url": "/v2/apps/dcdaa29e-0a20-41cf-811f-1cbeb08ff4b2",
+            "created_at": "2017-01-30T20:57:13Z",
+            "updated_at": "2017-01-30T20:58:44Z"
+         },
+         "entity": {
+            "name": "pythontwo",
+            "production": false,
+            "space_guid": "b7e1e0eb-dcc4-4ea0-b447-02766701d0ba",
+            "stack_guid": "57143110-cdb5-4479-b12c-dfd387ddab65",
+            "buildpack": null,
+            "detected_buildpack": "python 1.5.12",
+            "detected_buildpack_guid": "5cb5718d-38e0-4f40-b62c-d73a284a5744",
+            "environment_json": {
+               "ING_PORT": "61025"
+            },
+            "memory": 256,
+            "instances": 1,
+            "disk_quota": 512,
+            "state": "STARTED",
+            "version": "eef85484-d9d2-479b-a99d-1d18a06a8905",
+            "command": null,
+            "console": false,
+            "debug": null,
+            "staging_task_id": "a6464f35-71b8-4650-bfe3-f816524b4cdb",
+            "package_state": "STAGED",
+            "health_check_type": "port",
+            "health_check_timeout": null,
+            "staging_failed_reason": null,
+            "staging_failed_description": null,
+            "diego": true,
+            "docker_image": null,
+            "package_updated_at": "2017-01-30T20:57:48Z",
+            "detected_start_command": "python secureserver.py",
+            "enable_ssh": true,
+            "docker_credentials_json": {
+               "redacted_message": "[PRIVATE DATA HIDDEN]"
+            },
+            "ports": [
+               8080
+            ],
+            "space_url": "/v2/spaces/b7e1e0eb-dcc4-4ea0-b447-02766701d0ba",
+            "stack_url": "/v2/stacks/57143110-cdb5-4479-b12c-dfd387ddab65",
+            "routes_url": "/v2/apps/dcdaa29e-0a20-41cf-811f-1cbeb08ff4b2/routes",
+            "events_url": "/v2/apps/dcdaa29e-0a20-41cf-811f-1cbeb08ff4b2/events",
+            "service_bindings_url": "/v2/apps/dcdaa29e-0a20-41cf-811f-1cbeb08ff4b2/service_bindings",
+            "route_mappings_url": "/v2/apps/dcdaa29e-0a20-41cf-811f-1cbeb08ff4b2/route_mappings"
+         }
+      },
+      {
+         "metadata": {
+            "guid": "dd4d8f03-7d90-46bd-9cab-e710b26a6622",
+            "url": "/v2/apps/dd4d8f03-7d90-46bd-9cab-e710b26a6622",
+            "created_at": "2017-01-31T03:24:43Z",
+            "updated_at": "2017-01-31T03:25:56Z"
+         },
+         "entity": {
+            "name": "appstatus",
+            "production": false,
+            "space_guid": "b7e1e0eb-dcc4-4ea0-b447-02766701d0ba",
+            "stack_guid": "57143110-cdb5-4479-b12c-dfd387ddab65",
+            "buildpack": "python_buildpack",
+            "detected_buildpack": "",
+            "detected_buildpack_guid": "5cb5718d-38e0-4f40-b62c-d73a284a5744",
+            "environment_json": {},
+            "memory": 32,
+            "instances": 1,
+            "disk_quota": 512,
+            "state": "STARTED",
+            "version": "9effab11-22e4-4878-81fa-36ad8d1658b5",
+            "command": null,
+            "console": false,
+            "debug": null,
+            "staging_task_id": "3cc6e4f4-c4e6-46f1-9bff-5ca83ab19476",
+            "package_state": "STAGED",
+            "health_check_type": "port",
+            "health_check_timeout": null,
+            "staging_failed_reason": null,
+            "staging_failed_description": null,
+            "diego": true,
+            "docker_image": null,
+            "package_updated_at": "2017-01-31T03:25:50Z",
+            "detected_start_command": "python appstatus.py",
+            "enable_ssh": true,
+            "docker_credentials_json": {
+               "redacted_message": "[PRIVATE DATA HIDDEN]"
+            },
+            "ports": [
+               8080
+            ],
+            "space_url": "/v2/spaces/b7e1e0eb-dcc4-4ea0-b447-02766701d0ba",
+            "stack_url": "/v2/stacks/57143110-cdb5-4479-b12c-dfd387ddab65",
+            "routes_url": "/v2/apps/dd4d8f03-7d90-46bd-9cab-e710b26a6622/routes",
+            "events_url": "/v2/apps/dd4d8f03-7d90-46bd-9cab-e710b26a6622/events",
+            "service_bindings_url": "/v2/apps/dd4d8f03-7d90-46bd-9cab-e710b26a6622/service_bindings",
+            "route_mappings_url": "/v2/apps/dd4d8f03-7d90-46bd-9cab-e710b26a6622/route_mappings"
+         }
+      }
+   ]
+}
