@@ -1,13 +1,12 @@
-import sys
-sys.path.append('../')
-import appstatus
+import os
+from appstatus import appstatus
 import pytest
 import json
 from pytest_mock import mocker 
-from appstatus import CloudControllerConfig
 
 def filetostring(myfilename):
-    myfile=open(myfilename)
+    fqpn = os.path.dirname(os.path.realpath(__file__)) + '/' + myfilename
+    myfile=open(fqpn,'r')
     myfilecontents=myfile.read()
     myfile.close()
     return myfilecontents
