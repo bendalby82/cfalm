@@ -1,4 +1,4 @@
-# Cloud Foundry Application Lifecycle Management (CFALM)   
+# Cloud Foundry Application Lifecycle Management (CFALM)  [![Build Status](https://travis-ci.org/bendalby82/cfalm.svg?branch=master)](https://travis-ci.org/bendalby82/cfalm)
 ![Screenshot](https://github.com/bendalby82/cfalm/blob/master/images/testview.png)
 ## Contents  
 [1. Introduction](#1-introduction)   
