@@ -12,6 +12,7 @@
 [9. Licensing](#9-licensing)  
 [10. Contribution](#10-contribution)  
 [11. Support](#11-support)  
+[12. Unit Tests](#12-unit-tests)   
   
 ## 1. Introduction 
 Shows application lifecycle metadata for all applications in a foundation, along with some basic information. The application is a  wrapper around the Cloud Controller's `/v2/organizations`, `/v2/spaces`, `/v2/apps`, `/v2/buildpacks` and `/v2/events` end points.  
@@ -88,3 +89,18 @@ Create a fork of the project into your own reposity. Make all your necessary cha
   
 ## 11. Support  
 Please file bugs and issues on the Github issues page for this project. This is to help keep track and document everything related to this repo. The code and documentation are released with no warranties or SLAs and are intended to be supported through a community driven process.  
+
+## 12. Unit Tests  
+To run unit tests, you must make sure the following dependencies are available in your environment:  
+```
+sudo pip install pytest
+sudo pip install flask
+sudo pip install requests
+sudo pip install pytest_mock
+```
+
+Tests can then be run from the root directory of this repository with:  
+```
+python -m pytest
+```
+
